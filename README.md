@@ -11,12 +11,10 @@
 </p>
 
 <p align="center">
-  <!-- REPLACE: badges to be wired by engineering, in sync with the installer release pipeline -->
-  <img alt="Build: placeholder" src="https://img.shields.io/badge/build-REPLACE-lightgrey">
-  <img alt="Release: placeholder" src="https://img.shields.io/badge/release-REPLACE-lightgrey">
-  <img alt="License: placeholder" src="https://img.shields.io/badge/license-Apache%202.0%20(REPLACE)-lightgrey">
-  <img alt="Stars: placeholder" src="https://img.shields.io/badge/stars-REPLACE-lightgrey">
-  <!-- REPLACE: CNCF Landscape badge, only once the listing is approved (requires 300+ stars) -->
+  <img alt="Build: installer release pipeline status" src="https://img.shields.io/github/actions/workflow/status/krateo-platformops/installer/release-oci.yaml?label=build&event=push">
+  <img alt="Release: latest installer release" src="https://img.shields.io/github/v/release/krateo-platformops/installer?label=release&sort=semver">
+  <img alt="License: Apache 2.0" src="https://img.shields.io/github/license/krateo-platformops/installer">
+  <img alt="Stars: GitHub stars" src="https://img.shields.io/github/stars/krateo-platformops/krateo?label=stars&style=flat">
 </p>
 
 <p align="center">
@@ -36,43 +34,42 @@
 
 Platform teams spend their time on tickets and copy-pasted templates, while every new project waits days for infrastructure that should be routine.
 
-Krateo PlatformOps is a control plane that runs on Kubernetes and creates any resource on almost any infrastructure: Kubernetes clusters, applications, pipelines, databases, registries, API gateways. The only requirement is that the resource can be described in YAML as its desired state. Krateo validates every change, applies what was approved and keeps it true over time, inside and outside the cluster it runs on, on the major clouds and on-premises.
+Krateo PlatformOps is a control plane that runs on Kubernetes and creates any resource on almost any infrastructure: Kubernetes clusters, applications, pipelines, databases, registries, API gateways. The only requirement is that the resource can be described in YAML as its desired state. Krateo validates every change, applies what was approved and continuously reconciles it to the desired state, inside and outside the cluster it runs on, on the major clouds and on-premises.
 
 Roles stay clear. The platform team writes the templates, as blueprints; developers use them from a self-service portal and manage the whole lifecycle of what they created from one place, instead of searching across dozens of dashboards.
 
 ## Install
 
-Krateo 3.0 installs with `krateoctl`, the Krateo CLI. You need a Kubernetes cluster (1.30 or later), `kubectl`, [`krateoctl`](https://docs.krateo.io/key-concepts/krateoctl/overview) and the three secrets listed in the [secrets spec](https://docs.krateo.io/key-concepts/krateoctl/secrets).
+Krateo installs with one Helm chart, the [installer](https://github.com/krateo-platformops/installer). You need a Kubernetes cluster (1.36 or later) with no previous Krateo installation, `kubectl` and `helm`.
 
 ```sh
-krateoctl install plan  --version 3.0.0 --type nodeport   # preview only, nothing touches the cluster
-krateoctl install apply --version 3.0.0 --type nodeport
+helm install installer \
+  oci://ghcr.io/krateo-platformops/charts/installer \
+  --version 0.3.469 \
+  --namespace krateo-system --create-namespace \
+  --set bootstrap.coreProvider.enabled=true
 ```
 
-Use `--type loadbalancer` or `--type ingress` on a shared cluster, and add `--profile openshift` on OpenShift. The [installation guide](https://docs.krateo.io/how-to-guides/install-krateo/installing-krateo) covers a local kind cluster, PostgreSQL sizing and upgrades. Coming from 2.7? In-place upgrades are not supported: follow the [migration guide](https://docs.krateo.io/how-to-guides/migrate-krateo/migrate-from-2-7-0-to-3-0-0).
+Browser-facing services get a LoadBalancer by default. On kind or bare metal, use `--set exposure.type=NodePort`; behind a Gateway API controller, use `Gateway`. The [kind walkthrough](https://github.com/krateo-platformops/installer/blob/main/docs/runbooks/kind-default-profile.md) covers a local cluster end to end, and the [usage guide](https://github.com/krateo-platformops/installer/blob/main/docs/usage.md) covers upgrades and uninstall.
 
-No cluster at hand? Try Krateo in the browser in the [free self-service lab](https://killercoda.com/krateoplatformops). <!-- REPLACE: verify the lab runs 3.0 -->
-
-<!-- REPLACE: the Helm umbrella installer in krateo-platformops/installer (0.3.11, Kubernetes 1.36+) is not the documented 3.0 path; switch this section only when it ships as the documented install method -->
+No cluster at hand? Try Krateo in the browser in the [free self-service lab](https://killercoda.com/krateoplatformops). <!-- REPLACE: verify the lab runs the Helm installer -->
 
 ## What you get
 
 - **Golden paths as Kubernetes APIs.** Each blueprint becomes a CRD with its own schema, versioning and RBAC.
-- **Any API as a resource.** Generate a Kubernetes operator from an OpenAPI spec and manage external services declaratively.
-- **A composable portal.** Navigation, pages and forms are Kubernetes resources, versioned in Git.
-- **Installs you can review first.** `krateoctl install plan` shows every install or upgrade as a diff before anything is applied.
-- **FinOps and observability blueprints.** Cost and telemetry data collected on the same control plane.
+- **Any API as a resource.** Generate a Kubernetes operator from an OpenAPI spec with [oasgen-provider](https://github.com/krateo-platformops/oasgen-provider) and manage external services declaratively.
+- **A composable portal.** Navigation, pages and forms are Kubernetes resources.
+- **Observability built in.** OpenTelemetry collects logs, metrics, traces and Kubernetes events into ClickHouse, explorable in HyperDX. Events are tagged with the composition they belong to and stream live into the portal.
 
-## Examples
+## Blueprints
 
-Krateo installs the same way everywhere; what changes is the blueprints you add on top. Ready-to-use blueprints for AWS, Azure, Google Cloud, OpenStack, Keycloak and more live in the [krateo-blueprints](https://github.com/krateo-blueprints) organization.
+Ready-to-use blueprints for AWS, Azure, Google Cloud, OpenStack, Keycloak and more live in the [krateo-blueprints](https://github.com/krateo-blueprints) organization.
 
 ## Docs
 
 - [Documentation](https://docs.krateo.io/?utm_source=github&utm_medium=readme&utm_campaign=krateo&utm_content=docs) for concepts, guides and reference <!-- REPLACE: confirm the long-term docs domain -->
 - [What's new in 3.0](https://docs.krateo.io/release-notes/release-note-3.0.0) and the [compatibility matrix](https://docs.krateo.io/release-notes/matrix)
 - [Release notes](RELEASE_NOTES.md) for the history of every platform release
-- Roadmap: [REPLACE: link to ROADMAP.md, to be created]
 
 ## Community
 
