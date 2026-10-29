@@ -87,7 +87,7 @@ Platform releases are tag-driven and assembled by the installer; see [how a rele
 
 ## License
 
-Licensed under the [Apache License 2.0](LICENSE). <!-- REPLACE: LICENSE file is missing from this repository and must be added -->
+Licensed under the [Apache License 2.0](LICENSE).
 
 <a id="agentiko"></a>
 ## AGENTIKO: agents on top of Krateo PlatformOps
