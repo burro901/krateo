@@ -1,6 +1,5 @@
 <p align="center">
-  <!-- REPLACE: add a light variant of the logo for dark mode (docs/media/logo-white.svg) and switch to <picture>; the current logo is unreadable on GitHub dark theme -->
-  <img src="docs/media/logo.svg" width="220" alt="Krateo PlatformOps">
+  <img src="docs/media/logo-light.png" width="300" alt="Krateo PlatformOps">
 </p>
 
 <h1 align="center">Krateo PlatformOps</h1>
