@@ -1,8 +1,9 @@
 <p align="center">
-  <img src="docs/media/logo-light.png" width="300" alt="Krateo PlatformOps">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/media/krateo-logo-dark-mode.png">
+    <img src="docs/media/krateo-logo-light-mode.png" width="320" alt="Krateo PlatformOps">
+  </picture>
 </p>
-
-<h1 align="center">Krateo PlatformOps</h1>
 
 <p align="center">
   An open-source control plane on Kubernetes that creates and governs any resource, on any infrastructure.<br>
@@ -26,20 +27,23 @@
 
 <p align="center">
   <img src="docs/media/golden-path.gif" width="900" alt="A developer picks a blueprint, fills in the form and watches the new event site reconcile until it is Ready">
-  <br><em>A developer orders an event site from a blueprint: form, review, reconciliation, Ready.</em>
+  <br><em>A developer orders a service from a blueprint. <a href="#see-it-in-action">More scenarios below</a>.</em>
 </p>
 
 ## What is this
 
 Platform teams spend their time on tickets and copy-pasted templates, while every new project waits days for infrastructure that should be routine.
 
-Krateo PlatformOps is a control plane that runs on Kubernetes and creates any resource on almost any infrastructure: Kubernetes clusters, applications, pipelines, databases, registries, API gateways. The only requirement is that the resource can be described in YAML as its desired state. Krateo validates every change, applies what was approved and continuously reconciles it to the desired state, inside and outside the cluster it runs on, on the major clouds and on-premises.
+**Krateo PlatformOps** is a control plane that runs on Kubernetes and creates **any resource on almost any infrastructure**: Kubernetes clusters, applications, pipelines, databases, registries, API gateways.
 
-Roles stay clear. The platform team writes the templates, as blueprints; developers use them from a self-service portal and manage the whole lifecycle of what they created from one place, instead of searching across dozens of dashboards.
+- **One requirement.** The resource can be described in YAML as its desired state.
+- **Validated, applied, reconciled.** Krateo validates every change, applies what was approved and continuously reconciles it to the desired state.
+- **Inside and outside the cluster.** It manages resources beyond the cluster it runs on, on the major clouds and on-premises.
+- **Clear roles.** The platform team writes the templates as **blueprints**; developers use them from a **self-service portal** and manage the whole lifecycle from one place, instead of searching across dozens of dashboards.
 
 ## Install
 
-Krateo installs with one Helm chart, the [installer](https://github.com/krateo-platformops/installer). You need a Kubernetes cluster (1.36 or later) with no previous Krateo installation, `kubectl` and `helm`.
+Krateo installs with one Helm chart, the [installer](https://github.com/krateo-platformops/installer). You need a Kubernetes cluster (1.36 or later) with no previous Krateo installation, [`kubectl`](https://kubernetes.io/docs/tasks/tools/) and [`helm`](https://helm.sh/docs/intro/install/).
 
 ```sh
 helm install installer \
@@ -59,6 +63,28 @@ No cluster at hand? Try Krateo in the browser in the [free self-service lab](htt
 - **Any API as a resource.** Generate a Kubernetes operator from an OpenAPI spec with [oasgen-provider](https://github.com/krateo-platformops/oasgen-provider) and manage external services declaratively.
 - **A composable portal.** Navigation, pages and forms are Kubernetes resources.
 - **Observability built in.** OpenTelemetry collects logs, metrics, traces and Kubernetes events into ClickHouse, explorable in HyperDX. Events are tagged with the composition they belong to and stream live into the portal.
+
+## See it in action
+
+Recorded on the Krateo portal. Each clip is one scenario, with a caption for every step.
+
+<details open>
+<summary><b>Platform team · publish a blueprint from the Marketplace</b></summary>
+<br>
+<img src="docs/media/scenario-publish-blueprint.gif" width="900" alt="A platform engineer finds the event-site blueprint in the Marketplace, chooses its namespace, reviews the writes and confirms; the blueprint becomes Healthy">
+</details>
+
+<details>
+<summary><b>Developer · order a service from a blueprint</b></summary>
+<br>
+<img src="docs/media/golden-path.gif" width="900" alt="A developer picks a blueprint, fills in the generated form, confirms and watches the event site reconcile until it is Ready">
+</details>
+
+<details>
+<summary><b>Developer · fix a failed deployment</b></summary>
+<br>
+<img src="docs/media/scenario-fix-failure.gif" width="900" alt="Kubernetes rejects a Deployment because the CPU request exceeds the limit; the developer raises the limit from the portal, reviews the change and the site returns to Ready">
+</details>
 
 ## Blueprints
 
@@ -91,7 +117,17 @@ Licensed under the [Apache License 2.0](LICENSE).
 <a id="agentiko"></a>
 ## AGENTIKO: agents on top of Krateo PlatformOps
 
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/media/agentiko-logo-dark-mode.png">
+  <img src="docs/media/agentiko-logo-light-mode.png" width="220" alt="AGENTIKO">
+</picture>
+
 Once the platform runs, most of the work is keeping it healthy and changing it safely. AGENTIKO is the reasoning plane built by Krateo on Krateo PlatformOps: its agents read the platform, investigate, and prepare the change. They propose, they prove, a person decides, and the loop closes.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/media/agentiko-architecture-dark.svg">
+  <img src="docs/media/agentiko-architecture-light.svg" width="900" alt="AGENTIKO reads the platform, investigates and proposes a change; Krateo PlatformOps proves it, a person decides, then Krateo PlatformOps applies it and keeps it true">
+</picture>
 
 AGENTIKO is a commercial product, in alpha at Kiratech since 3 August 2026.
 
