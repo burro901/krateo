@@ -1,6 +1,7 @@
 <p align="center">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="docs/media/krateo-logo-dark-mode.png">
+    <source media="(prefers-color-scheme: light)" srcset="docs/media/krateo-logo-light-mode.png">
     <img src="docs/media/krateo-logo-light-mode.png" width="320" alt="Krateo PlatformOps">
   </picture>
 </p>
@@ -119,6 +120,7 @@ Licensed under the [Apache License 2.0](LICENSE).
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/media/agentiko-logo-dark-mode.png">
+  <source media="(prefers-color-scheme: light)" srcset="docs/media/agentiko-logo-light-mode.png">
   <img src="docs/media/agentiko-logo-light-mode.png" width="220" alt="AGENTIKO">
 </picture>
 
@@ -126,6 +128,7 @@ Once the platform runs, most of the work is keeping it healthy and changing it s
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/media/agentiko-architecture-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="docs/media/agentiko-architecture-light.svg">
   <img src="docs/media/agentiko-architecture-light.svg" width="900" alt="AGENTIKO reads the platform, investigates and proposes a change; Krateo PlatformOps proves it, a person decides, then Krateo PlatformOps applies it and keeps it true">
 </picture>
 
